@@ -1,0 +1,24 @@
+<div style="margin:auto; padding:5px; text-align:center">
+	显示第 <b><!--{$start}--></b>-<b><!--{$end}--></b> 条记录，共 <!--{$sum}--> 条记录<br>
+	<!--{if $page == 1}-->
+		第一页 上一页
+	<!--{else}-->
+		<a href="<!--{$uri}-->/page_1">第一页</a>
+		<a href="<!--{$uri}-->/page_<!--{$last}-->">上一页</a>
+	<!--{/if}-->
+
+	<!--{if $page == $total}-->
+		下一页 最后一页
+	<!--{else}-->
+		<a href="<!--{$uri}-->/page_<!--{$next}-->">下一页</a>
+		<a href="<!--{$uri}-->/page_<!--{$total}-->">最后一页</a>
+	<!--{/if}-->
+
+	到第
+	<select name="topage" size="1" style="font-size: 11px;" onchange='window.location="<!--{$uri}-->/page_"+this.value'>
+	<!--{section name=page start=1 loop=$total+1}-->
+		<!--{$smarty.section.page.index}--><option value="<!--{$smarty.section.page.index}-->" <!--{if $smarty.section.page.index == $page}-->selected="selected"<!--{/if}-->><!--{$smarty.section.page.index}--></option>
+	<!--{/section}-->
+	</select>
+	页，共 <!--{$total}--> 页
+</div>

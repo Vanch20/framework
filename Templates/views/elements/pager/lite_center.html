@@ -1,0 +1,26 @@
+<div class="page">
+	<!--{if $page > 1}-->
+		<a href="<!--{$uri}-->/page_1">&lt;&lt;</a>
+		<a href="<!--{$uri}-->/page_<!--{$page-1}-->"> &lt;</a>
+	<!--{else}-->
+		<!--<span class="disabled">&lt;&lt;</span>
+		<span class="disabled"> &lt;</span>-->
+	<!--{/if}-->
+
+	<!--{section name=page start=$start loop=$loop}-->
+		<!--{if $page == $smarty.section.page.index}-->
+			<span class="current"><!--{$page}--></span>
+		<!--{else}-->
+			<a href="<!--{$uri}-->/page_<!--{$smarty.section.page.index}-->"><!--{$smarty.section.page.index}--></a>
+		<!--{/if}-->
+	<!--{/section}-->
+
+	<!--{if $page < $total}-->
+		<a href="<!--{$uri}-->/page_<!--{$page+1}-->"> &gt;</a>
+		<a href="<!--{$uri}-->/page_<!--{$total}-->">&gt;&gt;</a>
+	<!--{else}-->
+		<!--<span class="disabled"> &gt; </span>
+		<span class="disabled">&gt;&gt;</span>-->
+	<!--{/if}-->
+
+</div>
