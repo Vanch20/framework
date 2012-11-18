@@ -45,14 +45,14 @@ class Cart
 	 * @param float $price
 	 * @return boolean
 	 */
-	protected function _add_to_cart($id, $name, $quantity = 1, $price = '')
+	protected function _add_to_cart($id, $name, $quantity = 1, $price = '', $info = array())
 	{
 		$id		= trim($id);
 		$name	= trim($name);
 		$quantity = intval($quantity);
 		$price	= floatval($price);
 		if (empty($id) || empty($name) || $quantity < 1) return false;
-		$this->_contents[$id] = array('id' => $id, 'quantity' => $quantity, 'name' => $name, 'price' => $price);
+		$this->_contents[$id] = array('id' => $id, 'quantity' => $quantity, 'name' => $name, 'price' => $price, 'info' => $info);
 		return true;
 	}
 
@@ -68,9 +68,9 @@ class Cart
 		$id	= trim($id);
 		if (empty($id) || !isset($this->_contents[$id])) return false;
 
-		if (isset($info['quantity'])) $this->_contents[$id]['quantity'] = $info['quantity'];
-		if (isset($info['name'])) $this->_contents[$id]['name'] = $info['name'];
-		if (isset($info['price'])) $this->_contents[$id]['price'] = $info['price'];
+		if (isset($info['quantity']))	$this->_contents[$id]['quantity'] = $info['quantity'];
+		if (isset($info['name']))		$this->_contents[$id]['name'] = $info['name'];
+		if (isset($info['price']))		$this->_contents[$id]['price'] = $info['price'];
 		return true;
 	}
 
@@ -87,46 +87,27 @@ class Cart
 	/**
 	 * 为购物车增加商品
 	 * 如商品已经存在更新数量，商品不存在则增加
+	 *
 	 * 数组基础结构为：
-	 * array('id' => 商品唯一标识, 'name' => 名称, 'quantity' => 数量, 'price' => 价格)
-	 * 基础结构中的字段都是必要字段
+	 * 'id' => 商品唯一标识, 'name' => 名称, 'quantity' => 数量, 'price' => 价格
 	 *
-	 * 也可以传入多个商品组成的二维数组，结构为
-	 * array(
-	 *		商品1 => array('id' => 商品唯一标识, 'name' => 名称, 'quantity' => 数量, 'price' => 价格),
-	 *		商品n => ...
-	 * )
-	 *
-	 * @param array $items 商品信息数组
+	 * @param array $info 商品附加信息数组
 	 * @return boolean
 	 */
-	public function add($items = array())
+	public function add($id, $name, $quantity, $price, $info = array())
 	{
-		if (!is_array($items) || count($items) < 1) return false;
+		if (empty($id)) return false;
 
-		if (isset($items['id']))
+		if (isset($this->_contents[$id]))
 		{
-			$items = array($items);
+			$this->_chg_quantity($id, $quantity);
+		}
+		else
+		{
+			$this->_add_to_cart($id, $name, $quantity, $price, $info);
 		}
 
-		foreach ($items AS $item)
-		{
-			$id		= @$item['id'];
-			$name	= isset($item['name']) ? $item['name'] : '';
-			$quantity = isset($item['quantity']) ? $item['quantity'] : 0;
-			$price	= isset($item['price']) ? $item['price'] : '';
-
-			if (isset($this->_contents[$id]))
-			{
-				$this->_chg_quantity($id, $quantity);
-			}
-			else
-			{
-				$this->_add_to_cart($id, $name, $quantity, $price);
-			}
-		}
-
-		$this->_save();
+		return $this->_save();
 	}
 
 	public function update($id, $info = array())
