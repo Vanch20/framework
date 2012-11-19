@@ -80,7 +80,7 @@ class Cart
 		$quantity = intval($quantity);
 		if (empty($id) || !isset($this->_contents[$id])) return false;
 
-		$this->_contents[$item['id']]['quantity'] += $quantity;
+		$this->_contents[$id]['quantity'] += $quantity;
 		return true;
 	}
 
@@ -110,11 +110,6 @@ class Cart
 		return $this->_save();
 	}
 
-	public function update($id, $info = array())
-	{
-
-	}
-
 	public function get()
 	{
 		return $this->_contents;
@@ -128,7 +123,7 @@ class Cart
 	 */
 	public function exist($id)
 	{
-		if (isset($this->_contents['id']))
+		if (isset($this->_contents[$id]))
 		{
 			return true;
 		}
@@ -137,9 +132,9 @@ class Cart
 
 	public function delete($id)
 	{
-		if (isset($this->_contents['id']))
+		if (isset($this->_contents[$id]))
 		{
-			unset($this->_contents['id']);
+			unset($this->_contents[$id]);
 			return true;
 		}
 		return false;
