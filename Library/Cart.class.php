@@ -135,6 +135,7 @@ class Cart
 		if (isset($this->_contents[$id]))
 		{
 			unset($this->_contents[$id]);
+			$this->_save();
 			return true;
 		}
 		return false;
