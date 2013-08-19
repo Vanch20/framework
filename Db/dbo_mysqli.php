@@ -80,7 +80,7 @@ class Dbo_Mysqli implements Db_Interface
 
 		if ($this->_link->errno)
 		{
-			throw new DbException('', $this->_link->error);
+			throw new DbException('', 'Mysql Link Error: ' . $this->_link->error);
 		}
 
 		if (isset($cs['fragment']))
@@ -89,7 +89,7 @@ class Dbo_Mysqli implements Db_Interface
 			$this->_link->query($sql);
 			if ($this->_link->errno)
 			{
-				throw new DbException('', $this->_link->error);
+				throw new DbException('', 'Cant Set Names: ' . $this->_link->error);
 			}
 		}
 
