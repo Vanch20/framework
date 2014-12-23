@@ -197,6 +197,23 @@ abstract class Orm
 	{
 		return $this->_dbo->affectedRows();
 	}
+        
+        /**
+	 * 取得最后一次insert操作插入的记录的id
+	 *
+	 * @return int
+	 */
+	public function lastInsertId()
+	{
+            if ($this->_last_insert_id)
+            {
+		return $this->_last_insert_id;
+            }
+            else
+            {
+                return $this->_dbo->insertId();
+            }
+	}
 
 	/**
 	 * 制作分页sql语句
@@ -246,9 +263,16 @@ abstract class Orm
 	 * @param string $sql sql语句
 	 * @return int
 	 */
-	public function count($sql, $params = null)
+	public function count($options = null)
 	{
-		return $this->_dbo->resultCount($sql, $params);
+            if (!is_array($options))
+            {
+                return $this->_dbo->resultCount($options);
+            }
+            else
+            {
+                return $this->_dbo->resultCount($options[0], $options[1]);
+            }
 	}
 
 	/**
@@ -299,6 +323,15 @@ abstract class Orm
 	public function transactionEnd()
 	{
 		return $this->_dbo->transactionEnd();
+	}
+        
+        /**
+	 * 开启调试模式
+	 *
+	 */
+	public function debug()
+	{
+		echo $this->_last_sql;
 	}
 }
 ?>

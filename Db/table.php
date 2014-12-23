@@ -520,10 +520,10 @@ class Table extends Orm
 	 *
 	 * @return int
 	 */
-	public function lastInsertId()
-	{
-		return $this->_last_insert_id;
-	}
+//	public function lastInsertId()
+//	{
+//		return $this->_last_insert_id;
+//	}
 
 	/**
 	 * 根据条件取得表中记录数
