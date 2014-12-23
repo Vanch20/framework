@@ -89,7 +89,7 @@ class Upload
 				//如果目录不存在，创建
 				if (!is_dir($target))
 				{
-					if (!mkdir($target, 0766, true))
+					if (!mkdir($target, 0744, true))
 					{
 						$this->error = '创建目录失败';
 						return false;
@@ -104,7 +104,7 @@ class Upload
 
 				if (move_uploaded_file($tmp_name, $target . $this->file_name))
 				{
-					chmod($target . $this->file_name, 0666);
+					chmod($target . $this->file_name, 0644);
 					return true;
 				}
 				else
