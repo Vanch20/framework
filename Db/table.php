@@ -248,7 +248,7 @@ class Table extends Orm
 		{
 			$sql = $this->paging($sql, $page_size, $page, $params);
 		}
-
+                
 		$this->_last_sql = $sql;
 		$result = $this->query($sql, $params);
 		$data = $this->fetch($result);
@@ -534,44 +534,33 @@ class Table extends Orm
 	 * @param array|string $options 数组时为option 字符串时为sql语句
 	 * @return int
 	 */
-	public function count($options = null)
+	public function countUsingOptions($options = null)
 	{
-		if (is_array($options))
-		{
-			if (isset($options['limit'])) unset($options['limit']);
-			if (isset($options['offset'])) unset($options['offset']);
+            $count = 0;
+            
+            if (is_array($options))
+            {
+                    if (isset($options['limit'])) unset($options['limit']);
+                    if (isset($options['offset'])) unset($options['offset']);
 
-			// 当SQL语句中包含GROUP BY语句时 使用mysql_num_rows,效率较低
-			if (isset($options['group']) && !empty($options['group']))
-			{
-				$sql = $this->_dbo->generateSelectSql($this->_name, $options);
-				$result = $this->query($sql, @$options['params']);
-				$count = $this->_dbo->getRowCount($result);
-			}
-			else
-			{
-				$options['fields'] = array('COUNT(1)');
-				$sql = $this->_dbo->generateSelectSql($this->_name, $options);
-				$result = $this->query($sql, @$options['params']);
-				$result = $this->fetch($result, 2);
-				$count = $result[0][0];
-			}
-		}
-		else
-		{
-			$count = $this->_dbo->resultCount($options);
-		}
+                    // 当SQL语句中包含GROUP BY语句时 使用mysql_num_rows,效率较低
+                    if (isset($options['group']) && !empty($options['group']))
+                    {
+                            $sql = $this->_dbo->generateSelectSql($this->_name, $options);
+                            $result = $this->query($sql, @$options['params']);
+                            $count = $this->_dbo->getRowCount($result);
+                    }
+                    else
+                    {
+                            $options['fields'] = array('COUNT(1)');
+                            $sql = $this->_dbo->generateSelectSql($this->_name, $options);
+                            $result = $this->query($sql, @$options['params']);
+                            $result = $this->fetch($result, 2);
+                            $count = $result[0][0];
+                    }
+            }
 
-		return $count;
-	}
-
-	/**
-	 * 开启调试模式
-	 *
-	 */
-	public function debug()
-	{
-		echo $this->_last_sql;
+            return $count;
 	}
 }
 ?>

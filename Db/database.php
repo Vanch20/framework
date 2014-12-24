@@ -19,7 +19,7 @@ class Database extends Orm
 	 *
 	 * @var array
 	 */
-	private $_tables = array();
+//	private $_tables = array();
 	
 	public function __construct($dsn_name)
 	{
@@ -30,8 +30,8 @@ class Database extends Orm
 		}
 		
 		$this->_name = str_replace('/', '', $this->_dsn['path']);
-		$tables = $this->_getTables($this->_name);
-		$this->_tables = $tables;
+//		$tables = $this->_getTables($this->_name);
+//		$this->_tables = $tables;
 	}
 }
 ?>

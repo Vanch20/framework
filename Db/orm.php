@@ -263,18 +263,11 @@ abstract class Orm
 	 * @param string $sql sql语句
 	 * @return int
 	 */
-	public function count($options = null)
+        public function count($sql, $params = null)
 	{
-            if (!is_array($options))
-            {
-                return $this->_dbo->resultCount($options);
-            }
-            else
-            {
-                return $this->_dbo->resultCount($options[0], $options[1]);
-            }
+            return $this->_dbo->resultCount($sql, $params);
 	}
-
+        
 	/**
 	 * 取得上一次查询的分页状态
 	 *

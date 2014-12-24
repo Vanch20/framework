@@ -419,6 +419,7 @@ class Dbo_Mysqli implements Db_Interface
 	 * 取得一个SELECT语句查询结果的个数，主要是分页用
 	 *
 	 * @param string $sql
+         * @param array params prepare用的参数
 	 * @return false | int
 	 */
 	public function resultCount($sql, $params = null)
