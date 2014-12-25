@@ -148,7 +148,7 @@ class Image_IM extends Imagefactory
 
 	public function createThumb($w, $h, $dst, $fit = 0, $force = false)
 	{
-		$i = $this->_i->clone();
+		$i = clone $this->_i;
 		if (!$force)
 		{
 			$w = $w > $this->_w ? $this->_w : $w;
@@ -190,7 +190,7 @@ class Image_IM extends Imagefactory
 
 	public function createCrop($x, $y, $w, $h, $dst)
 	{
-		$i = $this->_i->clone();
+		$i = clone $this->_i;
 		$i->cropImage($w, $h, $x, $y);
 		if (!is_dir(dirname($dst))) mkdir(dirname($dst), 0666, true);
 		$i->writeImage($dst);
