@@ -187,16 +187,16 @@ abstract class Controller
                 $tpl = $this->_controller .DS. $tpl;
                 
                 $suffix = '.html';
-                $h5_suffix = '.h5';
+                $h5_suffix = '.m';
                 
                 // 检查是否移动设备访问
                 if ($this->chkIsMobile() && file_exists(VIEW_DIR .DS. $tpl . $h5_suffix . $suffix))
                 {
-                    // 如果是且h5文件存在，则自动render H5版本
+                    // 如果是且移动版文件存在，则自动render 移动版本
                     $tpl .= $h5_suffix;
                     if ($layout == 'default')
                     {
-                        $layout = 'h5';
+                        $layout = 'mobile';
                     }
                 }
                 $tpl .= $suffix;
@@ -357,7 +357,6 @@ abstract class Controller
 				$data[$k] = $v;
 			}
 		}
-
 		exit(json_encode($data));
 	}
 

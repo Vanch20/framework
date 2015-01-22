@@ -139,7 +139,7 @@ abstract class Model
 	 *
 	 * @param array $info 保存在登录状态中的信息 有可能存在于Cookie中 要注意不要包含保密信息
 	 * @param string $id 标识
-	 * @param boolean $is_persist 是否保存登录状态 如果为true将在Cookie中保存登录状态30天
+	 * @param boolean $is_persist 是否保存登录状态 如果为true将在Cookie中保存登录状态1年
 	 */
 	public function fwLogin($info = array(), $id = null, $is_persist = false)
 	{
@@ -151,8 +151,11 @@ abstract class Model
 		$_SESSION[$name.'_info'] = $info;
 
 		$persists = 0;
-		if ($is_persist) $persists = time()+3600*24*30; // 30天
-		
+		if ($is_persist) 
+                {
+                    $persists = strtotime('+1 year');
+                }
+                
 		setcookie($name, '1', $persists, '/');
 		setcookie($name.'_info', $info, $persists, '/');
 	}
