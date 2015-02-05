@@ -118,7 +118,7 @@ class View_Smarty extends Smarty implements View_Interface
     	$params['size']  = isset($p['size'])  ? intval($p['size'])  : 0;
     	$params['sum']   = isset($p['sum'])   ? intval($p['sum'])   : 0;
     	$action	 = isset($params['style']) ? trim($params['style']) : 'common';
-    	$uri	 = isset($params['uri']) ? $params['uri'] : preg_replace("|/page_[0-9]+$|i", '', $_SERVER['REQUEST_URI']);
+    	$uri	 = isset($params['uri']) ? $params['uri'] : preg_replace("|/page_[0-9]+|i", '', $_SERVER['REQUEST_URI']);
     	$params['uri'] = preg_replace("|/$|", '', $uri);
 
     	if ($params['total'] < 1 || $params['page'] < 1 || $params['size'] < 1 || $params['sum'] < 1) return null;

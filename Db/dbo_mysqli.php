@@ -258,7 +258,7 @@ class Dbo_Mysqli implements Db_Interface
 	public function query($sql, $params = null)
 	{
 		$result = $this->execute($sql, $params);
-
+                
 		if (!is_null($params))
 		{
 			$sql = trim($sql);
@@ -321,7 +321,6 @@ class Dbo_Mysqli implements Db_Interface
 		else
 		{
 			$result = $this->_link->query($sql);
-
 			if ($this->_link->errno)
 			{
 				Loader::exception('db');
