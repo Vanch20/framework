@@ -41,18 +41,14 @@ class Cart
 	 *
 	 * @param int $id 商品id
 	 * @param int $quantity 数量
-	 * @param string $name
-	 * @param float $price
 	 * @return boolean
 	 */
-	protected function _add_to_cart($id, $name, $quantity = 1, $price = '', $info = array())
+	protected function _add_to_cart($id, $quantity = 1, $info = array())
 	{
 		$id		= trim($id);
-		$name	= trim($name);
 		$quantity = intval($quantity);
-		$price	= floatval($price);
-		if (empty($id) || empty($name) || $quantity < 1) return false;
-		$this->_contents[$id] = array('id' => $id, 'quantity' => $quantity, 'name' => $name, 'price' => $price, 'info' => $info);
+		if (empty($id) || $quantity < 1) return false;
+		$this->_contents[$id] = array('id' => $id, 'quantity' => $quantity, 'info' => $info);
 		return true;
 	}
 
@@ -68,9 +64,10 @@ class Cart
 		$id	= trim($id);
 		if (empty($id) || !isset($this->_contents[$id])) return false;
 
-		if (isset($info['quantity']))	$this->_contents[$id]['quantity'] = $info['quantity'];
-		if (isset($info['name']))		$this->_contents[$id]['name'] = $info['name'];
-		if (isset($info['price']))		$this->_contents[$id]['price'] = $info['price'];
+		if (isset($info['quantity']))	
+                {
+                    $this->_contents[$id]['quantity'] = $info['quantity'];
+                }
 		return true;
 	}
 
@@ -89,12 +86,12 @@ class Cart
 	 * 如商品已经存在更新数量，商品不存在则增加
 	 *
 	 * 数组基础结构为：
-	 * 'id' => 商品唯一标识, 'name' => 名称, 'quantity' => 数量, 'price' => 价格
+	 * 'id' => 商品唯一标识, 'quantity' => 数量,
 	 *
 	 * @param array $info 商品附加信息数组
 	 * @return boolean
 	 */
-	public function add($id, $name, $quantity, $price, $info = array())
+	public function add($id, $quantity, $info = array())
 	{
 		if (empty($id)) return false;
 
@@ -104,7 +101,7 @@ class Cart
 		}
 		else
 		{
-			$this->_add_to_cart($id, $name, $quantity, $price, $info);
+			$this->_add_to_cart($id, $quantity, $info);
 		}
 
 		return $this->_save();
@@ -173,22 +170,6 @@ class Cart
 			$total += $items['quantity'];
 		}
 		return $total;
-	}
-
-	/**
-	 * 取得购物车内商品总价格
-	 * 结构保留2位小数
-	 *
-	 * @return float
-	 */
-	public function totalPrice()
-	{
-		$total = 0;
-		foreach ($this->_contents AS $items)
-		{
-			$total += $items['quantity']*$items['price'];
-		}
-		return round($total, 2);
 	}
 }
 ?>
