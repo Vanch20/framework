@@ -163,7 +163,7 @@ abstract class Controller
 		$layout = empty($layout) ? 'default' : $layout;
 		$header = '';
 		$this->assign('layout', $layout);
-
+                
 		// 检查是否有与控制器名称相同的css文件，如有自动包含
 		$style_file = WEBROOT_DIR .DS. 'styles' .DS. $layout .DS. $this->_controller . '.css';
 		if (file_exists($style_file))
@@ -206,7 +206,7 @@ abstract class Controller
                 
 		$contents = $this->fetch($tpl);
 		$this->assign('contents', $contents);
-
+                
 		$this->assign('header', $header);
 		$this->assign('footer', $footer);
 		$this->display($layout);
@@ -347,9 +347,9 @@ abstract class Controller
 	 *
 	 * @return boolean
 	 */
-	public function responseAjax($success = '0', $message = '', $extension = '')
+	public function responseAjax($success = false, $message = '', $extension = '')
 	{
-		$data = array('success' => $success, 'message' => $message);
+		$data = array('success' => boolval($success), 'message' => $message);
 		if (is_array($extension) && count($extension) > 0)
 		{
 			foreach ($extension AS $k => $v)
