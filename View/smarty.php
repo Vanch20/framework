@@ -119,9 +119,11 @@ class View_Smarty extends Smarty implements View_Interface
     	$params['sum']   = isset($p['sum'])   ? intval($p['sum'])   : 0;
     	$action	 = isset($params['style']) ? trim($params['style']) : 'common';
     	$uri	 = isset($params['uri']) ? $params['uri'] : preg_replace("|(?:&)?/page_[0-9]+|i", '', $_SERVER['REQUEST_URI']);
-    	$params['uri'] = preg_replace("|/$|", '', $uri);
-        $params['uri'] = preg_replace("|&$|", '', $uri);
-
+    	$params['uri'] = preg_replace("|[/&]$|", '', $uri);	
+		preg_match("|\?.*$|i", $params['uri'], $query);
+		$params['query'] = isset($query[0]) ? $query[0] : '';
+		$params['uri'] = str_replace($params['query'], '', $params['uri']);
+		
     	if ($params['total'] < 1 || $params['page'] < 1 || $params['size'] < 1 || $params['sum'] < 1) return null;
 
     	$file = ELEMENT_DIR .DS . 'pager.php';

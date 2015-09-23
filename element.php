@@ -1,6 +1,7 @@
 <?php
 /**
  * element类 在视图中包含元件
+ * 用法：<!--{element name=name act=action}-->
  * 
  * @author linln
  * @version $Id$

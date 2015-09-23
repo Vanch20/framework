@@ -184,22 +184,22 @@ abstract class Controller
 
 		// 拼接视图位置字符串
 		$tpl = is_null($tpl) ? $this->_action : $tpl;
-                $tpl = $this->_controller .DS. $tpl;
-                
-                $suffix = '.html';
-                $h5_suffix = '.m';
-                
-                // 检查是否移动设备访问
-                if ($this->chkIsMobile() && file_exists(VIEW_DIR .DS. $tpl . $h5_suffix . $suffix))
-                {
-                    // 如果是且移动版文件存在，则自动render 移动版本
-                    $tpl .= $h5_suffix;
-                    if ($layout == 'default')
-                    {
-                        $layout = 'mobile';
-                    }
-                }
-                $tpl .= $suffix;
+		$tpl = $this->_controller .DS. $tpl;
+		
+		$suffix = '.html';
+		$h5_suffix = '.m';
+		
+		// 检查是否移动设备访问
+		if ($this->chkIsMobile() && file_exists(VIEW_DIR .DS. $tpl . $h5_suffix . $suffix))
+		{
+			// 如果是且移动版文件存在，则自动render 移动版本
+			$tpl .= $h5_suffix;
+			if ($layout == 'default')
+			{
+				$layout = 'mobile';
+			}
+		}
+		$tpl .= $suffix;
                 
                 // 拼接模板位置字符串
 		$layout = 'layouts' .DS. $layout .'.html';
