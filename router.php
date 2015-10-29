@@ -13,12 +13,23 @@ class Router
     /**
      * 默认的路由
      *
-     * @var unknown_type
+     * @var array
      */
 	protected $_default = array(':controller/:action/*',
 								array('controller' => ':controller', 'action' => ':action')
 								);
 
+	/**
+	 * 路由规则，将从conf中装载
+	 */
+	protected $_routes = array();
+	
+	/**
+	 * 每个路由规则的关键字
+	 * array(key1, key2, ...)
+	 */
+	protected $_route_keys = array();
+	
 	/**
 	 * 重新组合后的路由数组
 	 *
@@ -28,6 +39,7 @@ class Router
 
 	public function __construct()
 	{
+		$this->_routes = Loader::route();
 		$this->divideRoutes();
 	}
 
@@ -86,6 +98,7 @@ class Router
 		$routes = $this->_divided_routes;
 		$map = null;
 		$route = null;
+		$params = array();
 
 		for ($i = 0; $i < count($routes['routes']); $i++)
 		{
@@ -132,11 +145,14 @@ class Router
 		// 如果url还有没被匹配的数据 放在params中
 		foreach ($url AS $val)
 		{
-			$params[] = $val;
+			if (!in_array($val, $this->_route_keys))
+			{
+				$params[] = $val;
+			}
 		}
 
 		// 参数
-		$map['params'] = isset($params) ? $params : array();
+		$map['params'] = $params;
 
 		return $map;
 	}
@@ -147,7 +163,7 @@ class Router
 	public function divideRoutes()
 	{
 		// 从config中取得设定的路由
-		$routes = Loader::route();
+		$routes = $this->_routes;
 
 		// 将默认路由加在最后
 		$routes[] = $this->_default;
@@ -165,6 +181,7 @@ class Router
 			$this->_divided_routes['routes'][] = $route;
 			$this->_divided_routes['maps'][] = $routes[$i][1];
 			$this->_divided_routes['rules'][] = $rules;
+			array_push($this->_route_keys, $routes[$i][0]);
 
 			unset($rules);
 		}
