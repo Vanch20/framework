@@ -33,7 +33,7 @@ class Cart
 	 */
 	protected function _save()
 	{
-		setcookie($this->_name, serialize($this->_contents), time() + 3600*24*365, '/');
+		return setcookie($this->_name, serialize($this->_contents), time() + 3600*24*365, '/');
 	}
 
 	/**
