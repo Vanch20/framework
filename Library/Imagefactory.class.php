@@ -396,11 +396,14 @@ class Image_GD
 		}
 
 		imagejpeg($image, $dst, 100);
-		imagedestroy($this->_i);
-
 		// 为了安全，图片不需要可执行权限
 		chmod($dst, 0666);
 		return true;
     }
+	
+	public function __destruct()
+	{
+		imagedestroy($this->_i);
+	}
 }
 ?>

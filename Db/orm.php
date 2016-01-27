@@ -83,6 +83,11 @@ abstract class Orm
 	public function parseDsn($dsn)
 	{
 		$dsn = parse_url($dsn);
+		if (isset($dsn['host']) && substr($dsn['host'], 0, 2) == 'p-')
+		{
+			$dsn['persistent'] = true;
+			$dsn['host'] = substr($dsn['host'], 2);
+		}
 		$this->_dsn = $dsn;
 		return $dsn;
 	}

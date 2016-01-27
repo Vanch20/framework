@@ -66,7 +66,7 @@ class Dbo_Mysqli implements Db_Interface
 		$this->_link = mysqli_init();
 
 		// Can add some option here
-
+		if (isset($cs['persistent']) && $cs['persistent'] == true) $cs['host'] = 'p:'.$cs['host']; 
 		if (isset($cs['path']) && !empty($cs['path'])) $db = str_replace('/', '', $cs['path']);
 
 		if (isset($db))
