@@ -13,13 +13,8 @@ class Database extends Orm
 	 * @var string
 	 */
 	private $_name = '';
-	
-	/**
-	 * 数据库中的表
-	 *
-	 * @var array
-	 */
-//	private $_tables = array();
+    
+    protected $_bind_params = null;
 	
 	public function __construct($dsn_name)
 	{
@@ -30,8 +25,23 @@ class Database extends Orm
 		}
 		
 		$this->_name = str_replace('/', '', $this->_dsn['path']);
-//		$tables = $this->_getTables($this->_name);
-//		$this->_tables = $tables;
+	}
+    
+    public function find($sql, $params, $page_size = 0, $page = 0)
+	{
+		$page_size = intval($page_size);
+		$page	   = intval($page);
+
+		// 如果要分页
+		if ($page_size > 0)
+		{
+			$sql = $this->paging($sql, $page_size, $page, $params);
+		}
+        
+		$this->_last_sql = $sql;
+		$result = $this->query($sql, $params);
+		$data = $this->fetch($result);
+		return empty($data) ? null : $data;
 	}
 }
 ?>
